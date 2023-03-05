@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://www.hfyjbl.ml</id>
+    <title>蓝猫の鱼</title>
+    <updated>2023-03-05T06:31:10.620Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://www.hfyjbl.ml"/>
+    <link rel="self" href="https://www.hfyjbl.ml/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://www.hfyjbl.ml/images/avatar.png</logo>
+    <icon>https://www.hfyjbl.ml/favicon.ico</icon>
+    <rights>All rights reserved 2023, 蓝猫の鱼</rights>
+    <entry>
+        <title type="html"><![CDATA[文件快递柜-部署教程免费开源源码分享]]></title>
+        <id>https://www.hfyjbl.ml/fen-xiang/</id>
+        <link href="https://www.hfyjbl.ml/fen-xiang/">
+        </link>
+        <updated>2023-03-04T17:47:36.000Z</updated>
+        <content type="html"><![CDATA[<p>如果是给朋友分享文件，则会直接用 QQ 或者微信传输。如果遇到过大的文件，或者要作为热心网友给陌生网友分享文件时，都会用网盘来分享。但是有时候网盘分享会存在某些文件无法分享的情况，以及某些网盘小水管的下载速度体验极差，今天就给大家介绍一个好玩的项目，是一个有创意的文件分享方式——文件快递柜。</p>
+<p>[title]项目简介[/title]</p>
+<p>文件快递柜是一个轻量化、私有化的文件分享工具。像它的名字描述的一样，你可以用匿名口令分享文本，文件，其他人可以像拿快递一样取走文件。</p>
+<p>[title]主要特色[/title]<br>
+轻量简洁：Fastapi+Sqlite3+Vue2+ElementUI<br>
+轻松上传：复制粘贴，拖拽选择<br>
+多种类型：文本，文件<br>
+防止爆破：错误次数限制<br>
+防止滥用：IP限制上传次数<br>
+口令分享：随机口令，存取文件，自定义次数以及有效期<br>
+匿名分享：无需注册，无需登录<br>
+管理面板：查看所有文件，删除文件<br>
+一键部署：docker一键部署</p>
+<p>建议直接使用 docker 的部署方式，很简单，执行以下命令：</p>
+<p>docker run -d --restart=always -p 12345:12345 -v /opt/FileCodeBox/:/app/data --name filecodebox lanol/filecodebox:latest</p>
+<p>当然，你也可以指定其他的端口来部署。项目的数据都保存在/opt/FileCodeBox这个路径下</p>
+<p>[title]存取文件[/title]</p>
+<p>部署成功后，直接请求ip:端口即可访问文件快递柜取件界面，如下：</p>
+<p>你可以把要分享的文本粘贴到这里，也可以上传要分享的文件。</p>
+<p>同时，你可以选择取件的次数或者分享的有效时间来限制文件的分享范围。<br>
+[title]如何获取分享的文件[/title]<br>
+上传成功后，点击“我的文件”按钮，就可以查看刚才上传文件的取件码和二维码，点击取件码复制，就可以分享给朋友啦。<br>
+下面是取件的页面输入取件码就可以获取分享的文件了</p>
+<p>[title]管理界面[/title]</p>
+<p>我们也可以进入后台管理界面来管理已经上传的文件，修改网站的基本信息。</p>
+<p>管理后台怎么进入呢？这就需要到最开始部署时我说的那个路径了。网站的配置信息在/opt/FileCodeBox下的名为.env的文件中。</p>
+<p>后台管理界面的路径就是ip:端口/ADMIN_ADDRESS对应的md5值</p>
+<p>进去之后可以对后台一些信息进行修改。</p>
+<p>[title]配置文件[/title]</p>
+<p>如果需要修改配置，可以将该文件放在/opt/FileCodeBox/目录下，并命名为.env，然后重启容器即可。<br>
+如果不是Docker，则需要在项目同目录下新建一个data文件夹，然后在创建.env文件</p>
+<h1 id="端口">端口</h1>
+<p>PORT=12345</p>
+<h1 id="sqlite数据库文件">Sqlite数据库文件</h1>
+<p>DATABASE_URL=sqlite+aiosqlite:///database.db</p>
+<h1 id="静态文件夹">静态文件夹</h1>
+<p>DATA_ROOT=./static</p>
+<h1 id="静态文件夹url">静态文件夹URL</h1>
+<p>STATIC_URL=/static</p>
+<h1 id="是否开启上传">是否开启上传</h1>
+<p>ENABLE_UPLOAD=true</p>
+<h1 id="错误次数">错误次数</h1>
+<p>ERROR_COUNT=5</p>
+<h1 id="错误限制分钟数">错误限制分钟数</h1>
+<p>ERROR_MINUTE=10</p>
+<h1 id="上传次数">上传次数</h1>
+<p>UPLOAD_COUNT=60</p>
+<h1 id="上传限制分钟数">上传限制分钟数</h1>
+<p>UPLOAD_MINUTE=1</p>
+<h1 id="管理地址">管理地址</h1>
+<p>ADMIN_ADDRESS=admin</p>
+<h1 id="管理密码">管理密码</h1>
+<p>ADMIN_PASSWORD=admin</p>
+<h1 id="文件大小限制默认10mb">文件大小限制，默认10MB</h1>
+<p>FILE_SIZE_LIMIT=10</p>
+<h1 id="网站标题">网站标题</h1>
+<p>TITLE=文件快递柜</p>
+<h1 id="网站描述">网站描述</h1>
+<p>DESCRIPTION=FileCodeBox，文件快递柜，口令传送箱，匿名口令分享文本，文件，图片，视频，音频，压缩包等文件</p>
+<h1 id="网站关键词">网站关键词</h1>
+<p>KEYWORDS=FileCodeBox，文件快递柜，口令传送箱，匿名口令分享文本，文件，图片，视频，音频，压缩包等文件</p>
+<h1 id="存储引擎">存储引擎</h1>
+<p>STORAGE_ENGINE=filesystem</p>
+<p>[title]总结[/title]</p>
+<p>文件快递柜部署方便，功能简单直接，是一个很有趣的文件分享工具，感兴趣的朋友们快去试试吧。</p>
+<p>项目开源地址：https://github.com/vastsa/FileCodeBox</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello Gridea]]></title>
+        <id>https://www.hfyjbl.ml/hello-gridea/</id>
+        <link href="https://www.hfyjbl.ml/hello-gridea/">
+        </link>
+        <updated>2018-12-11T16:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+<!-- more -->
+<p><a href="https://github.com/getgridea/gridea">Github</a><br>
+<a href="https://gridea.dev/">Gridea 主页</a><br>
+<a href="https://fehey.com/">示例网站</a></p>
+<h2 id="特性">特性👇</h2>
+<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
+<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
+<p>🏷️  你可以对文章进行标签分组</p>
+<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
+<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
+<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
+<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
+<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
+<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
+<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
+<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
+<p>未来，它一定会成为你离不开的伙伴</p>
+<p>尽情发挥你的才华吧！</p>
+<p>😘 Enjoy~</p>
+]]></content>
+    </entry>
+</feed>
